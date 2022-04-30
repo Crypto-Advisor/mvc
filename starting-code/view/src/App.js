@@ -8,7 +8,7 @@ import { VictoryPie, VictoryTooltip } from 'victory';
 import Modal from './components/Modal';
 import ExpenseList from './components/ExpenseList';
 // import functions to interact with controller.
-import { expenseByCategory } from './utils';
+import { fetchExpenses ,expenseByCategory } from './utils';
 import './App.css';
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
   const [selectDate, setSelectDate] = useState(new Date());
 
   useEffect(() => {
+    fetchExpenses.then((res) => setExpenses(res));
     // update view from model w/ controller
   }, []);
 
@@ -42,6 +43,7 @@ function App() {
               onChange={(newValue) => {
                 setSelectDate(newValue);
                 // update view from model w/ controller
+                fetchExpenses(newValue.getTime()).then((res) => setExpenses(res));
               }}
               renderInput={(params) => <TextField {...params} />}
             />
